@@ -1,0 +1,25 @@
+# Publicación segura: configuración privada y artefactos locales
+.env
+.env.*
+!.env.example
+!.env.*.example
+node_modules/
+.expo/
+.local/
+dist/
+dist-*/
+distnative/
+coverage/
+test-results/
+*.log
+*.tsbuildinfo
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+.DS_Store
+Thumbs.db
