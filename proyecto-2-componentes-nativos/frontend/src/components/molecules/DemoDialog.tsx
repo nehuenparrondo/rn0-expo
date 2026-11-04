@@ -1,6 +1,9 @@
 /**
  * Ventana de demostración controlada por su componente padre. Respeta áreas seguras y
  * permite cerrar mediante el botón o el retroceso de Android.
+ *
+ * Lectura guiada. Diálogo controlado por props: visible decide si se muestra y el callback
+ * permite cerrarlo. Abrirlo no usa un alert del sistema.
  */
 import type { PropsWithChildren } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';

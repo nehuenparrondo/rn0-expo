@@ -1,6 +1,10 @@
 /**
  * Composición global: áreas seguras, preferencia de tema y navegación Expo Router. El
  * navegador consume el tema dentro de su proveedor.
+ *
+ * Lectura guiada. Composición raíz de Expo Router: instala navegación y proveedores
+ * visuales alrededor de las pantallas. La persistencia se define en los servicios, no por
+ * el nombre de esta ruta.
  */
 import { Stack } from 'expo-router';
 import { StatusBar } from 'react-native';

@@ -2,6 +2,9 @@
  * Estado global del tema y coordinación de su persistencia. Restaura la preferencia
  * antes de habilitar el selector y serializa las escrituras para conservar el último
  * cambio.
+ *
+ * Lectura guiada. El proveedor carga y guarda el tema de este proyecto. Cada ejercicio usa
+ * su clave independiente y no comparte una cuenta de usuario.
  */
 import {
   createContext,
@@ -47,6 +50,10 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   // La lectura termina antes de habilitar cambios para no sobrescribir la preferencia inicial.
   useEffect(() => {
     let isActive = true;
+    /**
+     * Carga el tema de forma asíncrona al montar el proveedor. La bandera de actividad evita
+     * actualizar un componente que ya se desmontó.
+     */
     async function restoreTheme() {
       try {
         const preference = await getThemePreference();

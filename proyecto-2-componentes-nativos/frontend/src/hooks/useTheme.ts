@@ -1,6 +1,10 @@
 /**
  * Acceso tipado al tema global. Un error fuera de ThemeProvider indica un uso
  * incorrecto del hook, no un fallo del usuario.
+ *
+ * Lectura guiada. Parte del sistema visual: comparte colores, tamaños o preferencia de
+ * tema según su implementación. La preferencia de apariencia es independiente de la
+ * autenticación y de los datos de las tareas.
  */
 import { useContext } from 'react';
 

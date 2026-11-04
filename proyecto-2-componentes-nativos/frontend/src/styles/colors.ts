@@ -1,6 +1,10 @@
 /**
  * Tokens de color semánticos para los temas claro y oscuro. Los componentes dependen
  * del significado del token, no de un color literal concreto.
+ *
+ * Lectura guiada. Parte del sistema visual: comparte colores, tamaños o preferencia de
+ * tema según su implementación. La preferencia de apariencia es independiente de la
+ * autenticación y de los datos de las tareas.
  */
 export const LIGHT_COLORS = {
   background: '#FAF6FC',

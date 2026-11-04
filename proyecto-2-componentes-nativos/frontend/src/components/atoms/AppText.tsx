@@ -1,6 +1,10 @@
 /**
  * Texto reutilizable con variantes tipográficas y tonos semánticos. Conserva las
  * propiedades accesibles de Text y permite sobrescribir el estilo al final.
+ *
+ * Lectura guiada. Componente reutilizable AppText. Sus props conectan contenido y acciones
+ * con el componente que lo usa; para seguir el dato, buscar sus importaciones y los
+ * callbacks recibidos en lugar de suponer que guarda directamente en una base.
  */
 import { Platform, StyleSheet, Text, type TextProps } from 'react-native';
 

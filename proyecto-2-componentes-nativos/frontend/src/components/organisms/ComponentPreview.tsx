@@ -2,6 +2,9 @@
  * Distribuidor de ejemplos según el nombre tipado del catálogo. Mantiene estados
  * independientes por ficha y delega listas, teclado y plataformas en módulos
  * especializados.
+ *
+ * Lectura guiada. Selecciona la demostración que corresponde al nombre de componente. Los
+ * ejemplos específicos viven en módulos separados.
  */
 import { useState } from 'react';
 import {

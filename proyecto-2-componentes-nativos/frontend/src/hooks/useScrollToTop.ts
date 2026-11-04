@@ -1,6 +1,10 @@
 /**
  * Estado del control de regreso al inicio a partir del desplazamiento. Solo actualiza
  * React al cruzar el umbral y libera la suscripción de accesibilidad al desmontarse.
+ *
+ * Lectura guiada. Hook reutilizable que agrupa estado o comportamiento de React. El nombre
+ * use permite reconocer que se consume desde componentes u otros hooks, no como un
+ * endpoint del servidor.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {

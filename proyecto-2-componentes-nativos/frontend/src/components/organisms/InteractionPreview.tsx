@@ -1,6 +1,9 @@
 /**
  * Ejemplos controlados de botones, pulsaciones e interruptores. La respuesta aparece
  * dentro de la ficha: no utiliza alertas ni servicios externos.
+ *
+ * Lectura guiada. Estado local para probar pulsaciones y controles; sus cambios no son
+ * cuentas ni registros persistidos.
  */
 import { useState } from 'react';
 import {

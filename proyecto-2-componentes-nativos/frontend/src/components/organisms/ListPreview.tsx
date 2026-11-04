@@ -2,6 +2,9 @@
  * Ejemplos de desplazamiento y virtualización con datos locales e identificadores
  * estables. Las listas son horizontales para no anidarlas en el eje vertical del
  * catálogo.
+ *
+ * Lectura guiada. Muestra listas de ejemplo y sus elementos reutilizables; no descarga una
+ * colección desde una base.
  */
 import {
   FlatList,

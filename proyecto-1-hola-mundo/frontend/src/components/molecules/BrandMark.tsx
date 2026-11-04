@@ -1,6 +1,10 @@
 /**
  * Identidad visual del saludo. Compone el monograma y el nombre usando los colores
  * del tema, sin estado ni acceso a almacenamiento.
+ *
+ * Lectura guiada. Componente reutilizable BrandMark. Sus props conectan contenido y
+ * acciones con el componente que lo usa; para seguir el dato, buscar sus importaciones y
+ * los callbacks recibidos en lugar de suponer que guarda directamente en una base.
  */
 import { StyleSheet, View } from 'react-native';
 

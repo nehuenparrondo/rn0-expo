@@ -1,6 +1,10 @@
 /**
  * Acción reutilizable del catálogo. Centraliza apariencia, etiqueta accesible y
  * bloqueo de pulsaciones mientras una operación está en curso.
+ *
+ * Lectura guiada. Componente reutilizable ActionButton. Sus props conectan contenido y
+ * acciones con el componente que lo usa; para seguir el dato, buscar sus importaciones y
+ * los callbacks recibidos en lugar de suponer que guarda directamente en una base.
  */
 import { Pressable, StyleSheet } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';

@@ -2,6 +2,9 @@
  * Ejemplos exclusivos de cada sistema y notas sobre APIs obsoletas. No importa ni
  * monta componentes deprecados; distingue la alternativa actual del ejemplo
  * histórico.
+ *
+ * Lectura guiada. Agrupa ejemplos con comportamiento dependiente de la plataforma y evita
+ * tratar APIs históricas como funciones disponibles en todos los dispositivos.
  */
 import { useRef, useState } from 'react';
 import {

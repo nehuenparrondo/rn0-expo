@@ -1,6 +1,10 @@
 /**
  * Pantalla del saludo con cuatro variantes visuales cíclicas. El estado local elige
  * el estilo; los tamaños y colores provienen de módulos separados.
+ *
+ * Lectura guiada. El índice de estilo vive en useState y avanza de manera cíclica;
+ * recargar lo reinicia. Cambiar estilo no abre un tab nuevo ni modifica el tema
+ * persistido.
  */
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';

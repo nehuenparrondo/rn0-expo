@@ -1,6 +1,9 @@
 /**
  * Ficha didáctica: descripción, uso, plataforma, ejemplo y código. Consume datos
  * tipados y delega la interacción en ComponentPreview.
+ *
+ * Lectura guiada. Recibe por props una ficha y su número; une explicación y vista previa
+ * sin duplicar los datos del catálogo.
  */
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import type { ComponentEntry } from '../../data/components';

@@ -1,6 +1,10 @@
 /**
  * Contratos compartidos del tema: modos permitidos, colores semánticos y estructura
  * completa. Solo contiene tipos, sin dependencias de interfaz ni efectos.
+ *
+ * Lectura guiada. Parte del sistema visual: comparte colores, tamaños o preferencia de
+ * tema según su implementación. La preferencia de apariencia es independiente de la
+ * autenticación y de los datos de las tareas.
  */
 /** Modos aceptados por el selector y el almacenamiento. */
 export type ThemeMode = 'light' | 'dark';

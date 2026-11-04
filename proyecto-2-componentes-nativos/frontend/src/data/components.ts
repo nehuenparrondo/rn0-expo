@@ -2,6 +2,9 @@
  * Fuente única del catálogo: 25 fichas en cinco grupos. Incluye propósito, uso,
  * propiedades y fragmento orientativo; los ejemplos ejecutables se implementan por
  * separado.
+ *
+ * Lectura guiada. Fuente de datos del catálogo: nombres, usos y ejemplos se definen aquí y
+ * las pantallas los recorren. Son contenido didáctico estático, no registros SQL.
  */
 export const COMPONENT_GROUPS = [
   {

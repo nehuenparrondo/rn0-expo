@@ -1,6 +1,9 @@
 /**
  * Demostración de teclado y formulario dentro de un modal. La barra accesoria solo se
  * monta en iOS; cerrar también descarta el teclado.
+ *
+ * Lectura guiada. Demuestra teclado, foco y cierre del ejemplo sin convertirlo en un
+ * formulario de autenticación.
  */
 import { useState } from 'react';
 import {

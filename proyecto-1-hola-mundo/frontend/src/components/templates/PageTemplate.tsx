@@ -1,6 +1,10 @@
 /**
  * Estructura del saludo: cabecera, contenido desplazable y selector de tema. Ajusta
  * márgenes a la pantalla y a las áreas seguras del dispositivo.
+ *
+ * Lectura guiada. Componente reutilizable PageTemplate. Sus props conectan contenido y
+ * acciones con el componente que lo usa; para seguir el dato, buscar sus importaciones y
+ * los callbacks recibidos en lugar de suponer que guarda directamente en una base.
  */
 import type { PropsWithChildren } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';

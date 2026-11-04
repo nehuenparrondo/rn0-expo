@@ -1,6 +1,10 @@
 /**
  * Botón de icono con etiqueta accesible y superficie táctil de 52 puntos. Centraliza
  * colores, respuesta de presión y estado deshabilitado.
+ *
+ * Lectura guiada. Componente reutilizable IconButton. Sus props conectan contenido y
+ * acciones con el componente que lo usa; para seguir el dato, buscar sus importaciones y
+ * los callbacks recibidos en lugar de suponer que guarda directamente en una base.
  */
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { ComponentProps } from 'react';

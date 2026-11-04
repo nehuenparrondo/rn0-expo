@@ -1,6 +1,9 @@
 /**
  * Pantalla del catálogo generado desde datos. Calcula numeración continua y una o dos
  * columnas según el ancho sin duplicar fichas ni ejemplos.
+ *
+ * Lectura guiada. Lee el catálogo de data/components.ts y pasa cada entrada por props a
+ * ComponentCard. El ancho decide columnas; el catálogo no necesita servidor.
  */
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import { COMPONENT_COUNT, COMPONENT_GROUPS } from '../data/components';

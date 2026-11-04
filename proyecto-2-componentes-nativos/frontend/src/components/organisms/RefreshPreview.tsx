@@ -1,6 +1,9 @@
 /**
  * Recarga local simulada de un segundo. Ignora solicitudes simultáneas y cancela el
  * temporizador al desmontarse; no requiere red ni backend.
+ *
+ * Lectura guiada. Demuestra el gesto de actualizar con estado y temporizador. No hay una
+ * petición real de red detrás del ejemplo.
  */
 import { useEffect, useRef, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
@@ -22,6 +25,10 @@ export function RefreshPreview() {
     },
     [],
   );
+  /**
+   * Simula el tiempo de una recarga del ejemplo y actualiza su estado visual. Este catálogo
+   * no consulta una API ni descarga registros reales.
+   */
   function refresh() {
     if (pendingTimer.current !== null) return;
     setRefreshing(true);
