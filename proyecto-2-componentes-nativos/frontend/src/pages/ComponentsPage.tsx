@@ -56,11 +56,12 @@ export function ComponentsPage() {
             Ejemplos interactivos
           </AppText>
           <AppText variant="caption" tone="muted">
-            React Native 0.86 · Expo 57
+            React Native 0.88 · Expo 58
           </AppText>
         </View>
       </View>
       {COMPONENT_GROUPS.map((group, groupIndex) => {
+        // Suma las fichas de los grupos anteriores para continuar la numeración del catálogo.
         const firstNumber =
           COMPONENT_GROUPS.slice(0, groupIndex).reduce(
             (total, previousGroup) => total + previousGroup.items.length,

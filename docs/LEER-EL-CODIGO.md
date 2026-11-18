@@ -1,59 +1,238 @@
-# Consigna 5 · Entender los dos proyectos de Expo
+# RN0 · Guía completa de las dos aplicaciones Expo
 
-## Qué incluye y qué no
+Revisión del código del 16 de noviembre de 2026.
 
-Son dos aplicaciones separadas: proyecto-1-hola-mundo y proyecto-2-componentes-nativos. Cada una se ejecuta dentro de su frontend. Usan React Native, Expo SDK 57 y TypeScript. No hay backend, login, MySQL ni envío de correo: sus demostraciones no dependen de RN1 ni de R5.
+RN0 reúne dos aplicaciones independientes de React Native con Expo SDK 58 y
+TypeScript. La primera explora un saludo y sus estilos. La segunda presenta
+25 componentes nativos con explicaciones y demostraciones.
 
-## Orden de lectura
+La actualización de compatibilidad del 17 de noviembre se detalla en
+[Expo SDK 58 y apertura de los QR](EXPO-SDK-58.md).
 
-src/app/_layout.tsx instala navegación y tema → src/app/index.tsx elige la pantalla → src/pages presenta el ejercicio → src/components arma las piezas → styles/data/services contienen los datos y ayudas.
+## 1. Carpetas y punto de entrada
 
-Expo Router usa los nombres dentro de app como rutas. Un archivo de componentes reutilizables debe vivir fuera de app si no debe ser una pantalla navegable.
+| Aplicación | Carpeta de ejecución | Pantalla principal |
+| --- | --- | --- |
+| Saludo | proyecto-1-hola-mundo/frontend | src/pages/HomePage.tsx |
+| Componentes | proyecto-2-componentes-nativos/frontend | src/pages/ComponentsPage.tsx |
 
-## Proyecto 1: saludo y estilos
+Cada frontend tiene su propio package.json, app.json y tsconfig.json.
+package.json usa expo-router/entry como entrada. Expo Router lee los archivos de
+src/app. index.tsx delega en una página y _layout.tsx instala navegación y
+proveedores alrededor de ella.
 
-HomePage conserva styleIndex en useState. El botón calcula el siguiente índice usando el resto de dividir por GREETING_STYLES.length: al llegar al último vuelve al primero. GREETING_STYLES contiene las variantes de presentación; no se crea otra cuenta ni otro registro con cada pulsación.
+| Carpeta dentro de src | Para qué se usa |
+| --- | --- |
+| app | Rutas de Expo Router y composición raíz. |
+| pages | Pantalla completa del ejercicio. |
+| components/atoms | Texto y botones pequeños reutilizables. |
+| components/molecules | Composición de piezas, como el diálogo. |
+| components/organisms | Fichas y ejemplos con interacción propia. |
+| components/templates | Estructura de pantalla, scroll, márgenes y cabecera. |
+| context y hooks | Tema compartido y acceso reutilizable al estado. |
+| services | Lectura y escritura de preferencias. |
+| data | Contenido estático del catálogo de componentes. |
+| styles, constants y types | Paletas, tamaños, claves y contratos TypeScript. |
 
-useBreakpoint toma el ancho para ajustar tamaños y PageTemplate concentra el marco visual. AppText recibe props de contenido y estilo para que los textos mantengan un criterio común.
+Las demostraciones funcionan con componentes y estado local. La única
+persistencia de estas aplicaciones es la preferencia de tema mediante AsyncStorage.
 
-**Alcance pendiente:** cambiar estilos en esta pantalla no es agregar un tab. La ruta explore redirige al inicio; no presentar la pestaña adicional de la consigna como implementada. Esta documentación no modifica ese comportamiento.
+## 2. Aplicación 1 · Cómo cambia el saludo
 
-## Proyecto 2: catálogo de componentes
+[HomePage](../proyecto-1-hola-mundo/frontend/src/pages/HomePage.tsx#L19) conserva
+styleIndex con useState(0). Obtiene la variante de GREETING_STYLES y calcula su
+tamaño a partir del ancho de pantalla.
 
-data/components.ts es la fuente estática de fichas: nombre, para qué sirve, ejemplo y observaciones. ComponentsPage recorre grupos con map y calcula una numeración continua. Pasa entry y number por props a ComponentCard; ComponentPreview elige el ejemplo visual.
+1. Pressable recibe la pulsación en onPress.
+2. setStyleIndex calcula (currentIndex + 1) % GREETING_STYLES.length.
+3. La pantalla elige otra entrada de styles/greeting.ts.
+4. AppText recibe las propiedades de texto y el tono de esa variante.
+5. React Native vuelve a representar Hola Mundo con ese estilo.
 
-Las demostraciones de interacción, teclado, listas, plataforma y actualización están separadas para no mezclar toda la pantalla. El ancho decide una o dos columnas, sin duplicar el catálogo. Los componentes históricos o exclusivos de una plataforma están señalados; verlos en una ficha no significa que se ejecuten en cualquier teléfono.
+Las cuatro variantes cambian peso, cursiva, familia, espaciado, mayúsculas, tamaños
+y tonos. En la variante monoespaciada se usa Menlo en iOS y monospace en las demás
+plataformas. Cambiar estilo conserva el tema activo. El índice de estilo se reinicia
+al volver a montar la pantalla.
 
-## Qué se guarda y qué se pierde
+[useBreakpoint](../proyecto-1-hola-mundo/frontend/src/hooks/useBreakpoint.ts#L14)
+obtiene las dimensiones actuales. styles/breakpoints.ts define los cortes de móvil,
+tablet y escritorio. Los estilos del saludo separan tamaño móvil y tamaño de escritorio.
 
-ThemeContext usa services/storageService.ts para guardar la preferencia de tema en AsyncStorage. Cada proyecto usa su clave. AsyncStorage es local al dispositivo/aplicación: no es MySQL y no se utiliza para contraseñas.
+PageTemplate reúne el monograma, el contenido desplazable, áreas seguras y el botón
+del tema. AppText envuelve Text con tipografía y tonos comunes. IconButton aporta
+etiqueta accesible y una superficie táctil amplia.
 
-El estilo seleccionado y los valores de los ejemplos son estado de pantalla. Reiniciar puede devolverlos a su valor inicial; no hay una tabla ni un JSON de usuarios esperando ser leído.
+## 3. Aplicación 2 · Cómo se arma el catálogo
 
-## Asincronía y limpieza
+[COMPONENT_GROUPS](../proyecto-2-componentes-nativos/frontend/src/data/components.ts)
+contiene cinco grupos y 25 fichas. Cada ficha describe name, description, useCase,
+props y code. El fragmento code es texto didáctico. El ejemplo ejecutable se
+implementa en un componente de demostración.
 
-restoreTheme espera la lectura del tema y comprueba que el componente siga activo antes de actualizarlo. Los ejemplos con temporizadores limpian sus recursos cuando corresponde. RefreshPreview simula la espera de actualizar con estado/temporizador: no hace una descarga real desde un servidor.
+[ComponentsPage](../proyecto-2-componentes-nativos/frontend/src/pages/ComponentsPage.tsx#L16)
+recorre grupos y fichas con map. Calcula la numeración sumando la cantidad de fichas
+de los grupos anteriores. Desde 900 puntos distribuye dos columnas, y por debajo
+muestra una. Cada ficha recibe entry y number por props.
 
-DemoDialog es un diálogo dentro de la aplicación controlado por props; no es un alert del sistema. La distinción ayuda a seguir quién abre/cierra la vista y dónde se guarda su estado.
+ComponentCard presenta la explicación y entrega entry.name a
+[ComponentPreview](../proyecto-2-componentes-nativos/frontend/src/components/organisms/ComponentPreview.tsx#L34).
+Su switch selecciona la demostración. Cada instancia conserva su propio estado.
+Escribir en TextInput o pulsar un botón no modifica las otras fichas.
 
-## Qué archivo tocar
+### Los 25 componentes
 
-- Cambiar el texto del saludo: HomePage.
-- Agregar/ajustar una variante: styles/greeting.ts.
-- Cambiar la explicación de un componente: data/components.ts.
-- Cambiar una demostración: el Preview correspondiente, no los datos de todo el catálogo.
-- Cambiar colores o tema: styles y ThemeContext.
+| Componente | Para qué sirve | Qué muestra o permite probar |
+| --- | --- | --- |
+| View | Agrupar y distribuir elementos con Flexbox. | Bloques con colores y espacios. |
+| Text | Representar texto con formato. | Un texto con color. |
+| Image | Mostrar imágenes. | Un recurso local del proyecto. |
+| ImageBackground | Superponer contenido a una imagen. | Texto sobre una composición gráfica. |
+| TextInput | Recibir texto. | value y onChangeText actualizan el texto visible. |
+| Button | Ejecutar una acción básica. | Un contador de pulsaciones. |
+| Pressable | Personalizar una pulsación. | Pulsación normal, prolongada y respuesta visual. |
+| Switch | Elegir un valor booleano. | Alternar Activado y Desactivado. |
+| TouchableOpacity | Responder reduciendo opacidad. | Pulsaciones con transparencia. |
+| TouchableHighlight | Resaltar al pulsar. | Respuesta visual de fondo. |
+| TouchableWithoutFeedback | Detectar una pulsación sin efecto añadido. | Contador local, con adaptación para web. |
+| ScrollView | Desplazar contenido montado completo. | Una lista horizontal de ejemplo. |
+| FlatList | Renderizar una lista de datos de forma gradual. | Elementos con renderItem y keyExtractor. |
+| SectionList | Agrupar una lista en secciones. | Encabezados y elementos por grupo. |
+| VirtualizedList | Personalizar el acceso a una colección virtualizada. | getItem y getItemCount. |
+| RefreshControl | Actualizar mediante gesto. | Recarga simulada y contador de actualizaciones. |
+| ActivityIndicator | Indicar una operación pendiente. | Activar y detener el indicador. |
+| Modal | Presentar contenido encima de una pantalla. | Abrir y cerrar DemoDialog. |
+| KeyboardAvoidingView | Adaptar el espacio al teclado. | Formulario dentro de un diálogo. |
+| StatusBar | Ajustar la barra del sistema móvil. | Cambio de apariencia en plataformas compatibles. |
+| DrawerLayoutAndroid | Panel lateral nativo de Android. | Abrir y cerrar el drawer en Android. |
+| TouchableNativeFeedback | Efecto de onda nativo de Android. | Pulsación con Ripple en Android. |
+| InputAccessoryView | Barra adicional sobre el teclado de iOS. | Botón Listo en un iPhone o iPad. |
+| SafeAreaView | Respetar zonas del sistema. | La alternativa de react-native-safe-area-context. |
+| ProgressBarAndroid | API histórica de progreso. | Ficha documental, sin montar el componente obsoleto. |
 
-## Ejecutar y validar
+### Dónde vive cada interacción
 
-En cada frontend: npm ci y npm start. Para abrir ambos usar puertos diferentes. npm run validate ejecuta TypeScript y lint; build:web y build:all exportan recursos. Una exportación no es una APK/IPA ni certifica permisos y gestos en un dispositivo físico. Los avisos de dependencias de INFORME-REVISION.md conservan su alcance: documentarlos no los corrige ni deben ocultarse.
+[InteractionPreview](../proyecto-2-componentes-nativos/frontend/src/components/organisms/InteractionPreview.tsx#L34)
+agrupa Button, Pressable, Switch y Touchable. handlePress usa el valor anterior
+del contador. La pulsación prolongada de Pressable suma cinco. En web, la ficha
+TouchableWithoutFeedback utiliza Pressable como adaptación.
 
-La organización sigue el SDK del proyecto; referencia oficial: https://docs.expo.dev/versions/v57.0.0/. No se agregaron librerías ni se cambió la versión para documentar.
+[ListPreview](../proyecto-2-componentes-nativos/frontend/src/components/organisms/ListPreview.tsx#L45)
+implementa las listas. Conviene comparar las props de ScrollView con las de
+FlatList para explicar la diferencia entre montar contenido y virtualizar datos.
 
-## Encontrar una función en el editor
+[refresh](../proyecto-2-componentes-nativos/frontend/src/components/organisms/RefreshPreview.tsx#L32)
+simula un segundo de espera. pendingTimer impide iniciar dos actualizaciones a la
+vez. El efecto de limpieza cancela el temporizador al desmontar el ejemplo.
 
-En el archivo de código, los bloques de comentario explican responsabilidades, entradas/salidas y efectos importantes. Buscar el nombre con Ctrl+F permite encontrar la función; después usar Buscar referencias para ver quién la llama. El mapa siguiente incluye enlaces a los archivos reales y a las líneas vigentes al documentar.
+KeyboardPreview abre el teclado en un formulario, lo oculta al cerrar y utiliza
+InputAccessoryView solo cuando corresponde a iOS. PlatformPreview comprueba
+Platform.OS antes de montar ejemplos exclusivos. El diálogo comparte cierre
+explícito y onRequestClose para el botón de retroceso del sistema.
 
-[Mapa de archivos y funciones](MAPA-ARCHIVOS-Y-FUNCIONES.md).
+CatalogTemplate organiza la pantalla y el desplazamiento. useScrollToTop y
+ScrollToTopButton permiten volver al comienzo de un catálogo largo.
 
-Documentación en español del código activo. No se cambiaron instrucciones ejecutables, dependencias, secretos ni datos. Los respaldos con fechas, node_modules, compilaciones y archivos privados no son el código activo documentado. Los resultados de comprobación se registran por separado y no certifican servicios externos ni requisitos pendientes.
+## 4. Tema y persistencia
+
+Cada aplicación tiene un ThemeProvider independiente. El recorrido es el mismo.
+
+1. Al montar, restoreTheme llama a getThemePreference.
+2. storageService lee AsyncStorage y acepta light o dark.
+3. isThemeReady indica que terminó la restauración.
+4. toggleTheme alterna el estado.
+5. Un efecto encola saveThemePreference para conservar el último cambio.
+
+| Aplicación | Clave de AsyncStorage | Contenido |
+| --- | --- | --- |
+| Saludo | @proyecto1/theme | light o dark. |
+| Componentes | @proyecto2/theme | light o dark. |
+
+pendingSave serializa escrituras si se pulsa varias veces. Las banderas isActive
+evitan actualizar estado desde efectos desmontados. Los errores de lectura o
+guardado se muestran dentro de la interfaz. El tema puede cambiar visualmente
+aunque falle su persistencia.
+
+Los estados de los ejemplos, como texto, pulsaciones, modales o carga, viven en
+memoria. El catálogo vive en data/components.ts. AsyncStorage conserva únicamente
+la preferencia de apariencia.
+
+## 5. TypeScript y estilos
+
+NativeComponentName restringe los nombres que puede recibir el distribuidor.
+Los tipos del tema exigen la misma estructura para las paletas clara y oscura.
+Las interfaces describen props y evitan usos incompatibles durante la compilación.
+
+StyleSheet.create organiza los estilos de React Native como objetos. Los colores
+semánticos se obtienen del tema. useWindowDimensions actualiza la distribución al
+rotar o redimensionar. Las áreas seguras evitan superponer contenido a zonas del sistema.
+
+## 6. Ejecutar en la computadora y en el celular
+
+Abrir una terminal en el frontend de cada aplicación e instalar con npm ci.
+
+Para ver la primera en la computadora.
+
+    npm start -- --web --localhost --port 8101
+
+Para la segunda utilizar el mismo comando con el puerto 8102.
+Para Expo Go en el iPhone, iniciar en modo de red local.
+
+    npm start -- --go --lan --port 8101
+
+Mantener la terminal abierta, conectar el teléfono y la PC a la misma red y
+escanear el QR vigente con la cámara. El QR depende de la dirección actual de
+la PC. Una imagen de QR vieja puede apuntar a una dirección que ya cambió.
+Usar una versión de Expo Go compatible con el SDK instalado.
+
+Web permite revisar la mayoría de las interacciones. El teclado de iOS, StatusBar,
+el drawer y los efectos exclusivos se comprueban en el dispositivo correspondiente.
+
+Dentro de cada frontend, npm run validate ejecuta TypeScript y lint.
+npm run build:web exporta la web y npm run build:all empaqueta las plataformas.
+Los documentos PRUEBAS-MANUALES.md de cada aplicación completan el recorrido de prueba.
+
+## 7. Estado de la consigna y límites reales
+
+La primera aplicación tiene la pantalla del saludo y el botón de estilos.
+Su ruta /explore redirige al inicio. La navegación actual usa Stack y todavía
+carece de la pestaña adicional mencionada en la consigna original.
+Esta revisión documenta ese estado para que pueda distinguirse del saludo ya implementado.
+
+La segunda incluye 25 fichas en cinco grupos. Las APIs obsoletas se explican y las
+exclusivas se montan únicamente en su plataforma. Por eso revisar la web por sí sola
+no demuestra el comportamiento del teclado de iOS o del drawer de Android.
+
+## 8. Preguntas para la defensa
+
+| Pregunta | Respuesta breve y archivo |
+| --- | --- |
+| ¿Dónde comienza la aplicación? | expo-router/entry y src/app/_layout.tsx. |
+| ¿Dónde está el Hola Mundo? | HomePage.tsx, con AppText y los estilos de greeting.ts. |
+| ¿Qué hace el botón de estilos? | Avanza styleIndex y React Native vuelve a representar el texto. |
+| ¿Qué datos se pasan por props? | entry y number a ComponentCard, y name a ComponentPreview. |
+| ¿Dónde se guardan los componentes? | Son contenido estático de data/components.ts. |
+| ¿Por qué el tema recuerda la elección? | ThemeProvider escribe AsyncStorage mediante storageService. |
+| ¿Por qué dos temas no se mezclan? | Cada aplicación utiliza una clave distinta. |
+| ¿La actualización consulta Internet? | RefreshPreview usa un temporizador local de un segundo. |
+| ¿Por qué cambia entre celular y escritorio? | useWindowDimensions decide tamaños y columnas. |
+| ¿Para qué sirve TypeScript? | Comprueba contratos, props y nombres de componentes durante el desarrollo. |
+| ¿Hay otra pestaña en el saludo? | Actualmente explore redirige al inicio; esa parte de la consigna queda pendiente. |
+
+El [mapa de archivos y funciones](MAPA-ARCHIVOS-Y-FUNCIONES.md) permite abrir cada
+módulo y localizar sus funciones por nombre y línea.
+
+## 9. Verificación de la revisión documental del 16 de noviembre
+
+Se ejecutó npm run validate dentro del frontend de cada aplicación. Ambas
+terminaron correctamente: TypeScript y ESLint aprobaron los dos proyectos.
+
+El mapa reúne 57 archivos y enlaza 42 funciones o componentes declarados.
+Se contrastaron las 25 fichas con sus demostraciones y se documentaron las
+adaptaciones por plataforma. La comparación del código ejecutable antes y después
+confirma que los comentarios mantienen el comportamiento original.
+
+Se actualizaron README.md, esta guía y MAPA-ARCHIVOS-Y-FUNCIONES.md, además de
+comentarios sobre saludo, catálogo y estado aislado de cada ficha.
+El teclado, los gestos y los controles específicos requieren el recorrido en
+iPhone o Android descrito arriba. El pendiente de la pestaña adicional se detalla
+en el apartado 7.

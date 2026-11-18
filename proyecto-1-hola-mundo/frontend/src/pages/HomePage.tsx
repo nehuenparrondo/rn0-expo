@@ -20,6 +20,7 @@ export function HomePage() {
   const [styleIndex, setStyleIndex] = useState(0);
   const { isMobile } = useBreakpoint();
   const { theme } = useTheme();
+  // El índice pertenece a esta pantalla. El tema claro/oscuro se maneja en otro contexto.
   const selectedStyle = GREETING_STYLES[styleIndex];
   const fontSize = isMobile
     ? selectedStyle.mobileSize

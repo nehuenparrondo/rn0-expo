@@ -33,6 +33,7 @@ const LOCAL_IMAGE = require('../../../assets/component-pattern.png');
 /** Selecciona una demostración para cada nombre permitido por NativeComponentName. */
 export function ComponentPreview({ name }: { name: NativeComponentName }) {
   const { theme, themeMode } = useTheme();
+  // Cada ficha monta su propia instancia: escribir aquí no cambia las otras demostraciones.
   const [inputText, setInputText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);

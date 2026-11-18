@@ -12,7 +12,7 @@ import {
   Keyboard,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
-  type ScrollView,
+  type ScrollViewInstance,
 } from 'react-native';
 
 /**
@@ -20,7 +20,7 @@ import {
  * control.
  */
 export function useScrollToTop() {
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ScrollViewInstance>(null);
   const visibleRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);

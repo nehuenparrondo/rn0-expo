@@ -6,7 +6,7 @@
  * Lectura guiada. Agrupa ejemplos con comportamiento dependiente de la plataforma y evita
  * tratar APIs históricas como funciones disponibles en todos los dispositivos.
  */
-import { useRef, useState } from 'react';
+import { useRef, useState, type ComponentRef } from 'react';
 import {
   DrawerLayoutAndroid,
   Platform,
@@ -33,7 +33,7 @@ type PlatformName = Extract<
 /** Monta únicamente APIs compatibles y explica las alternativas de las obsoletas. */
 export function PlatformPreview({ name }: { name: PlatformName }) {
   const { theme } = useTheme();
-  const drawerRef = useRef<DrawerLayoutAndroid>(null);
+  const drawerRef = useRef<ComponentRef<typeof DrawerLayoutAndroid>>(null);
   const [pressCount, setPressCount] = useState(0);
   const [visible, setVisible] = useState(false);
   if (name === 'InputAccessoryView') return <KeyboardPreview accessory />;
